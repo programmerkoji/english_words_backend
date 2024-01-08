@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,6 +17,7 @@ class WordFactory extends Factory
      */
     public function definition()
     {
+        $now = Carbon::now();
         return [
             'user_id' => $this->faker->numberBetween(1, 2),
             'word_en' => $this->faker->unique->word,
@@ -23,6 +25,7 @@ class WordFactory extends Factory
             'part_of_speech' => $this->faker->numberBetween(0, 4),
             'memory' => $this->faker->numberBetween(0, 2),
             'memo' => $this->faker->text,
+            'created_at' => $this->faker->dateTimeBetween('-2 week', $now),
         ];
     }
 }

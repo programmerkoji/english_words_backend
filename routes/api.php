@@ -29,5 +29,6 @@ Route::group(
             return $request->user();
         });
         Route::get('/word', [WordController::class, 'index']);
+        Route::post('/word', [WordController::class, 'store']);
     }
 );
