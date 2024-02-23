@@ -69,7 +69,7 @@ class WordController extends Controller
     public function store(Request $request): JsonResponse
     {
         try {
-            $validation = $request->validate([
+            $request->validate([
                 'word_en' => 'required',
                 'word_ja' => 'required',
                 'part_of_speech' => 'required',
@@ -79,6 +79,34 @@ class WordController extends Controller
             $this->getCurrentUser()->words()->create($request->all());
             DB::commit();
             return response()->json(['message' => '単語の登録に成功しました'], 200);
+        } catch (ValidationException $e) {
+            return response()->json(['errors' => $e->errors()], 412);
+        } catch (\Throwable $th) {
+            Log::error($th);
+            DB::rollBack();
+        }
+    }
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $word_id)
+    {
+        try {
+            $request->validate([
+                'word_en' => 'required',
+                'word_ja' => 'required',
+                'part_of_speech' => 'required',
+                'memory' => 'required',
+            ]);
+            DB::beginTransaction();
+            $word = Word::findOrFail($word_id);
+            $word->update($request->all());
+            return response()->json(['message' => '単語の編集に成功しました'], 200);
+            DB::commit();
         } catch (ValidationException $e) {
             return response()->json(['errors' => $e->errors()], 412);
         } catch (\Throwable $th) {
