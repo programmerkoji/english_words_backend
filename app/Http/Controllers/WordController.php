@@ -114,4 +114,15 @@ class WordController extends Controller
             DB::rollBack();
         }
     }
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $word_id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($word_id)
+    {
+        Word::findOrFail($word_id)->delete();
+        return response()->json(['message' => '単語の削除に成功しました'], 200);
+    }
 }

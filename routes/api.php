@@ -30,6 +30,7 @@ Route::group(
         Route::get('/word', [WordController::class, 'index']);
         Route::post('/word', [WordController::class, 'store']);
         Route::put('/word/{word_id}', [WordController::class, 'update']);
+        Route::delete('/word/{word_id}', [WordController::class, 'destroy']);
         Route::post('/logout', [AuthController::class, 'logout']);
     }
 );
