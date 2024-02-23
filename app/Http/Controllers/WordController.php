@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 
 class WordController extends Controller
 {
@@ -68,10 +69,18 @@ class WordController extends Controller
     public function store(Request $request): JsonResponse
     {
         try {
+            $validation = $request->validate([
+                'word_en' => 'required',
+                'word_ja' => 'required',
+                'part_of_speech' => 'required',
+                'memory' => 'required',
+            ]);
             DB::beginTransaction();
             $this->getCurrentUser()->words()->create($request->all());
             DB::commit();
             return response()->json(['message' => '単語の登録に成功しました'], 200);
+        } catch (ValidationException $e) {
+            return response()->json(['errors' => $e->errors()], 412);
         } catch (\Throwable $th) {
             Log::error($th);
             DB::rollBack();
