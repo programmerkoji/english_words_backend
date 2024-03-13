@@ -105,8 +105,8 @@ class WordController extends Controller
             DB::beginTransaction();
             $word = Word::findOrFail($word_id);
             $word->update($request->all());
-            return response()->json(['message' => '単語の編集に成功しました'], 200);
             DB::commit();
+            return response()->json(['message' => '単語の編集に成功しました'], 200);
         } catch (ValidationException $e) {
             return response()->json(['errors' => $e->errors()], 412);
         } catch (\Throwable $th) {
