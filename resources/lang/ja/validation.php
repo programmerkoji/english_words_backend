@@ -159,6 +159,7 @@ return [
         'word_ja' => '日本語訳',
         'part_of_speech' => '品詞',
         'memory' => '記憶度',
+        'email' => 'メールアドレス',
+        'password' => 'パスワード'
     ],
-
 ];
