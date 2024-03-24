@@ -27,7 +27,10 @@ class AuthController extends Controller
             $request->session()->regenerate();
             return response()->json(Auth::user());
         }
-        return response()->json(['message' => 'メールアドレスまたはパスワードが間違っています。'], 422);
+        return response()->json([
+            'message' => 'メールアドレスまたはパスワードが間違っています。',
+            'errors' => 'メールアドレスまたはパスワードが間違っています。'
+        ], 422);
     }
 
     public function logout(Request $request): JsonResponse
